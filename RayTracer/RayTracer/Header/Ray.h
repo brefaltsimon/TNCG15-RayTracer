@@ -13,4 +13,5 @@ private:
 	vec3 start, end;
 	// or direction?
 	ColorDbl color;
+	Triangle hitTriangle;
 };
