@@ -8,7 +8,7 @@ public:
 
 	Pixel();
 
-
+	
 
 private:
 	colorDbl rayColor;

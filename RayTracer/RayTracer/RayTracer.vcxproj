@@ -151,6 +151,7 @@
     <ClInclude Include="Header\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Header\Scene.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
