@@ -18,10 +18,30 @@ Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2, colorDbl clr)
 	normal = glm::cross(v1v2,v0v1);
 }
 
-vec3 Triangle::RayIntersection(Ray arg)
+bool Triangle::RayIntersection(Ray arg, float &v, float &u)
 {
+	//Variabler för Möller
+	vec3 E_1 = positions[1] - positions[0];
+	vec3 E_2 = positions[2] - positions[0];
+	vec3 T = arg.getStart() - positions[0];
+	vec3 D = arg.getEnd() - arg.getStart();
+	vec3 Q = glm::cross(T, E_1);
+	vec3 P = glm::cross(D, E_2);
+	float t = glm::dot(Q,E_2 ) / glm::dot(P, E_1);
 
-	return vec3();
+	float utest = glm::dot(P,T) / glm::dot(P, E_1);
+	float vtest = glm::dot(Q,D) / glm::dot(P, E_1);
+
+	if (utest >= 0 && vtest >= 0 && (utest + vtest <= 1))
+	{
+		u = utest;
+		v = vtest;
+		return true;
+		//do the something;
+	}
+	return false;
+	
+	// t = intersektion punkten?  så T = (1 - u - v)v_0 + u*v_1 + v*v_2
 }
 
 int main() {

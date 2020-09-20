@@ -12,9 +12,9 @@ public:
 	void Render();
 
 private:
-	vec3 eye1;
-	//vec3 eye2; add laterrr
-	//Pixel viewPlane[800][800];
-	Pixel** viewPlane = new Pixel*[800];
+	vec3 eye1 = vec3(-2,0,0);
+	//vec3 eye2 = vec3(-1,0,0);
+	vec3 cameraPlaneVrtx[2][2];
 
+	Pixel** viewPlane = new Pixel*[800];
 };

@@ -11,7 +11,7 @@ public:
 	Triangle(vec3 v0, vec3 v1, vec3 v2, colorDbl clr);
 
 
-	vec3 RayIntersection(Ray arg);
+	bool RayIntersection(Ray arg, float &u, float &v);
 
 private:
 	std::array<vec3, 3> positions;
