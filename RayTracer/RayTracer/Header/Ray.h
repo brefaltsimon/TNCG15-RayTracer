@@ -3,7 +3,7 @@
 
 class Ray {
 public:
-	Ray() = delete;
+	Ray() = default;
 	Ray(vec3 start, vec3 end);
 	//Ray(vec3 Start, vec3 End, colorDbl Color) : start{ Start }, end{ End }, color{ Color } { };
 

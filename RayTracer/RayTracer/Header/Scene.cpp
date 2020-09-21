@@ -88,8 +88,8 @@ Triangle Scene::whichIsHit(const Ray &aRay)
 		if (i->RayIntersection(aRay, u, v)) {
 			return *i;
 		}
-		
 	}
-
+	vec3 hi(0,0,0);
+	return Triangle(hi, hi, hi, hi);
 
 }
