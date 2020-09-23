@@ -19,22 +19,25 @@ Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2, colorDbl clr)
 	normal = glm::cross(v1v2,v0v1);
 }
 
-bool Triangle::RayIntersection(Ray arg, float &v, float &u)
+bool Triangle::RayIntersection(const Ray& arg)
 {
 	//med vinkeln på ray arg, räkna intersection
 	//Variabler för Möller
-	vec3 E_1 = positions[1] - positions[0];
-	vec3 E_2 = positions[2] - positions[0];
-	vec3 T = arg.getStart() - positions[0];
-	vec3 D = arg.getEnd() - arg.getStart(); //riktning
-	vec3 Q = glm::cross(T, E_1);
-	vec3 P = glm::cross(D, E_2);
-	float t = glm::dot(Q,E_2 ) / glm::dot(P, E_1);
+	const float EPSILON = 0.000001;
+	float u{};
+	float v{};
+	vec3 Edge_1 = positions[1] - positions[0];
+	vec3 Egde_2 = positions[2] - positions[0];
+	vec3 T = arg.GetStart() - positions[0]; //punkt p triangeln rayToVertex
+	vec3 Direction = glm::normalize(arg.GetDirection()); //riktning s detta blir en in variabel?
+	vec3 Q = glm::cross(T, Edge_1);
+	vec3 P = glm::cross(Direction, Egde_2);
+	float t = glm::dot(Q, Egde_2) / glm::dot(P, Edge_1);
 
-	float utest = glm::dot(P,T) / glm::dot(P, E_1);
-	float vtest = glm::dot(Q,D) / glm::dot(P, E_1);
+	float utest = glm::dot(P,T) / glm::dot(P, Edge_1);
+	float vtest = glm::dot(Q, Direction) / glm::dot(P, Edge_1);
 
-	if (utest >= 0 && vtest >= 0 && (utest + vtest <= 1))
+	if (utest >= EPSILON && vtest >= EPSILON && (utest + vtest <= 1))
 	{
 		u = utest;
 		v = vtest;
