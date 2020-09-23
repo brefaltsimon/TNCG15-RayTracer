@@ -11,7 +11,7 @@ class Camera {
 public:
 	Camera();
 
-	void ShootRay();
+	void ShootRay(Scene& scene);
 	void Render();
 	void CreateImage(Scene theScene);
 
