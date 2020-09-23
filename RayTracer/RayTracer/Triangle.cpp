@@ -16,7 +16,7 @@ Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2, colorDbl clr)
 	color = clr;
 	direction v0v1 = v1 - v0;
 	direction v1v2 = v1 - v2;
-	normal = glm::cross(v1v2,v0v1);
+	normal = glm::normalize(glm::cross(v1v2, v0v1));
 }
 
 bool Triangle::RayIntersection(const Ray& arg)

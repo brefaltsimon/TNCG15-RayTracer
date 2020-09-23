@@ -2,7 +2,7 @@
 
 Pixel::Pixel()
 {
-	rayColor = vec3(0.0, 0.0, 0.0);
+	pixelColor = vec3(0.0, 0.0, 0.0);
 	Ray rayFromEye(vec3(0,0,0), vec3(0,0,0));
 	rayList.push_back(rayFromEye);
 }
@@ -16,5 +16,6 @@ vec3 Pixel::getMidOfPixel(int y, int z)
 
 void Pixel::addRay(Ray& ray)
 {
-	rayList.push_back(ray);
+	pixelColor = ray.GetColor();
+	*rayList.begin() = ray;
 }

@@ -13,7 +13,7 @@ public:
 
 	void ShootRay(Scene& scene);
 	void Render();
-	void CreateImage(Scene theScene);
+	void CreateImage(Scene& theScene);
 
 
 private:
@@ -22,5 +22,6 @@ private:
 	//vec3 eye2 = vec3(-1,0,0);
 	vec3 cameraPlaneVrtx[2][2];
 
-	Pixel** viewPlane = new Pixel*[800];
+	Pixel** viewPlane = new Pixel*[800]; //
+	//std::array<std::array<Pixel, 800>, 800> viewPlane; fyller stack
 };

@@ -12,6 +12,8 @@ public:
 
 	vec3  GetStart() const { return start; };
 	vec3  GetDirection() const { return direction; };
+	vec3  GetColor() const { return color; };
+	
 
 private:
 	vec3 start;
