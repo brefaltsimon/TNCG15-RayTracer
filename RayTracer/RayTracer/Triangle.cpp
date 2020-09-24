@@ -19,11 +19,17 @@ Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2, colorDbl clr)
 	normal = glm::normalize(glm::cross(v1v2, v0v1));
 }
 
-bool Triangle::RayIntersection(const Ray& arg)
+vec3 Triangle::getMid()
+{
+
+	return vec3((positions[0].x + positions[1].x + positions[2].x)/3, (positions[0].y + positions[1].y + positions[2].y)/3, (positions[0].z + positions[1].z + positions[2].z)/3);
+}
+
+bool Triangle::RayIntersection(const Ray& arg, vec3 &intersection)
 {
 	//med vinkeln på ray arg, räkna intersection
 	//Variabler för Möller
-	const float EPSILON = 0.000001;
+	const float EPSILON = 0.00001f;
 	float u{};
 	float v{};
 	vec3 Edge_1 = positions[1] - positions[0];
@@ -37,12 +43,16 @@ bool Triangle::RayIntersection(const Ray& arg)
 	float utest = glm::dot(P,T) / glm::dot(P, Edge_1);
 	float vtest = glm::dot(Q, Direction) / glm::dot(P, Edge_1);
 
-	if (utest >= EPSILON && vtest >= EPSILON && (utest + vtest <= 1))
+	if (utest >= EPSILON && vtest >= EPSILON && (utest + vtest <= 1)) // u > 0 , v > 0 och u + v <=1
 	{
-		u = utest;
-		v = vtest;
-		return true;
-		//do the something;
+
+		if (t > 0.0f) {
+			u = utest;
+			v = vtest;
+			intersection = (1.0f - u - v) * positions[0] + u * positions[1] + v * positions[2]; //Räknar ut interktionpunkten
+			return true;
+		}
+
 	}
 	return false;
 	

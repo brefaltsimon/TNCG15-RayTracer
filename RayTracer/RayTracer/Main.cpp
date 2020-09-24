@@ -6,6 +6,8 @@
 int main() {
 
 	Scene scene;
+	scene.AddObjects();
+
 	Camera camera;
 	camera.CreateImage(scene);
 	

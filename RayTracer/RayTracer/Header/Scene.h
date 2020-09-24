@@ -1,6 +1,7 @@
 #pragma once
 #include "definitions.h"
 #include "Triangle.h"
+#include "Tetrahedron.h"
 
 
 #include <vector>
@@ -14,7 +15,7 @@ public:
 	void CreateRoom();
 	void AddObjects();
 
-	Triangle whichIsHit(const Ray &aRay);
+	Triangle whichIsHit(const Ray &aRay, vec3& intersection);
 
 private:
 	std::vector<Triangle> sceneTriangles;

@@ -23,16 +23,38 @@ void Camera::ShootRay(Scene &scene) {
 			{
 				//skjut en ray i riktning mot pixeln
 				Pixel p;
-				vec3 rayEnd = p.getMidOfPixel(i, j);
+				vec3 rayEnd = p.getMidOfPixel(j, i);
 				Ray shotRay = Ray(eye1, rayEnd-eye1);
 				//shotRay.SetDirection(rayEnd-eye1);
 				
 				
 				//Ta fram den triangeln som har blivit träffad och ge rayen den färgen
-				Triangle hit = scene.whichIsHit(shotRay);
-				shotRay.setColor(hit.getColor());
+				Triangle hit = scene.whichIsHit(shotRay, rayEnd);
+				vec3 shadowCastPoint = rayEnd;
+				//shoot shadow ray towards light
+				Ray shadowRay = Ray(rayEnd, vec3(5, 0, 5)- rayEnd);
+				Triangle shadowHit = scene.whichIsHit(shadowRay, rayEnd);
+
+				if (length(rayEnd - vec3(5, 0, 5)) < length(shadowCastPoint - vec3(5, 0, 5)) && length(rayEnd - vec3(5, 0, 5)) > 0.5f) {
+					shotRay.setColor(colorDbl(0.0f, 0.0f, 0.0f));
+				}
+				else {
+					
+					
+					shotRay.setColor(hit.getColor());
+				}
+
+				/*
+				if (length(rayEnd - vec3(5, 0, 5)) < 1.0f) {
+					shotRay.setColor(hit.getColor());
+				}
+				else {
+					shotRay.setColor(colorDbl(0.0f, 0.0f, 0.0f));
+				}*/
+
+				
 				p.addRay(shotRay);
-				viewPlane[i][j] = p;
+				viewPlane[j][i] = p;
 			}
 		}
 
@@ -58,7 +80,7 @@ void Camera::CreateImage(Scene &theScene)
 	//sätt in våra pixel värden på ett coolt sätt
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
-			vec3 unscaledColor = viewPlane[y][x].GetColor();
+			vec3 unscaledColor = viewPlane[x][y].GetColor();
 			int r = floor(unscaledColor[0] * 255);
 			int g = floor(unscaledColor[1] * 255);
 			int b = floor(unscaledColor[2] * 255);

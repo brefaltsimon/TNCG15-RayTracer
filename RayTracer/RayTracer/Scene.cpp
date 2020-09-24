@@ -21,13 +21,21 @@ void Scene::CreateRoom()
 //    ^ z
 //    |
 //    |----> x
-
+	/*
 	glm::vec3 aBottom(0.0f, -5.0f, 13.0f), aTop(0.0f, 5.0f, 13.0f);
 	glm::vec3 bBottom(-6.0f, -5.0f, 10.0f), bTop(-6.0f, 5.0f, 10.0f);
 	glm::vec3 cBottom(6.0f, -5.0f, 10.0f), cTop(6.0f, 5.0f, 10.0f);
 	glm::vec3 dBottom(-6.0f, -5.0f, 0.0f), dTop(-6.0f, 5.0f, 0.0f);
 	glm::vec3 eBottom(6.0f, -5.0f, 0.0f), eTop(6.0f, 5.0f, 0.0f);
 	glm::vec3 fBottom(0.0f, -5.0f, -3.0f), fTop(0.0f, 5.0f, -3.0f);
+	*/
+
+	glm::vec3 aBottom(13.0f, 0.0f, -5.0f), aTop(13.0f, 0.0f, 5.0f);
+	glm::vec3 bBottom(10.0f, 6.0f, -5.0f), bTop(10.0f, 6.0f, 5.0f);
+	glm::vec3 cBottom(10.0f, -6.0f, -5.0f), cTop(10.0f, -6.0f, 5.0f);
+	glm::vec3 dBottom(0.0f, 6.0f, -5.0f), dTop(0.0f, 6.0f, 5.0f);
+	glm::vec3 eBottom(0.0f, -6.0f, -5.0f), eTop(0.0f, -6.0f, 5.0f);
+	glm::vec3 fBottom(-3.0f, 0.0f, -5.0f), fTop(-3.0f, 0.0f, 5.0f);
 
 	colorDbl White = colorDbl(1.0f);
 	colorDbl Grey = colorDbl(0.5f);
@@ -46,17 +54,17 @@ void Scene::CreateRoom()
 	//const Surface Purple(colorDbl(1.0f, 0.0f, 1.0f));
 	//const Surface Teal(ColorDouble(0.0f, 0.0f, 0.0f), SPECULAR);
 	//const Surface Mirror(ColorDouble(0.0f), SPECULAR);
-
+	
 	// Floor
 	sceneTriangles.push_back(Triangle(bBottom, cBottom, aBottom, White));
 	sceneTriangles.push_back(Triangle(bBottom, dBottom, cBottom, White));
 	sceneTriangles.push_back(Triangle(dBottom, eBottom, cBottom, White));
 	sceneTriangles.push_back(Triangle(dBottom, fBottom, eBottom, White));
 	// Roof
-	sceneTriangles.push_back(Triangle(bTop, aTop, cTop, White));
-	sceneTriangles.push_back(Triangle(bTop, cTop, dTop, White));
-	sceneTriangles.push_back(Triangle(dTop, cTop, eTop, White));
-	sceneTriangles.push_back(Triangle(dTop, eTop, fTop, White));
+	sceneTriangles.push_back(Triangle(bTop, aTop, cTop, Blue));
+	sceneTriangles.push_back(Triangle(bTop, cTop, dTop, Blue));
+	sceneTriangles.push_back(Triangle(dTop, cTop, eTop, Blue));
+	sceneTriangles.push_back(Triangle(dTop, eTop, fTop, Blue));
 	// Right side back
 	sceneTriangles.push_back(Triangle(fBottom, fTop, eTop, Blue));
 	sceneTriangles.push_back(Triangle(fBottom, eTop, eBottom, Blue));
@@ -64,27 +72,36 @@ void Scene::CreateRoom()
 	sceneTriangles.push_back(Triangle(dBottom, dTop, fTop, Yellow));
 	sceneTriangles.push_back(Triangle(dBottom, fTop, fBottom, Yellow));
 	// Left side center
-	sceneTriangles.push_back(Triangle(bBottom, bTop, dTop, White));
-	sceneTriangles.push_back(Triangle(bBottom, dTop, dBottom, White));
+	sceneTriangles.push_back(Triangle(bBottom, bTop, dTop, Grey));
+	sceneTriangles.push_back(Triangle(bBottom, dTop, dBottom, Grey));
 	// Left side front
-	sceneTriangles.push_back(Triangle(aBottom, aTop, bTop, White));
-	sceneTriangles.push_back(Triangle(aBottom, bTop, bBottom, White));
+	sceneTriangles.push_back(Triangle(aBottom, aTop, bTop, Green));
+	sceneTriangles.push_back(Triangle(aBottom, bTop, bBottom, Green));
 	// Right side front
-	sceneTriangles.push_back(Triangle(cBottom, cTop, aTop, White));
-	sceneTriangles.push_back(Triangle(cBottom, aTop, aBottom, White));
+	sceneTriangles.push_back(Triangle(cBottom, cTop, aTop, Red));
+	sceneTriangles.push_back(Triangle(cBottom, aTop, aBottom, Red));
 	// Right side center
-	sceneTriangles.push_back(Triangle(eBottom, eTop, cTop, White));
-	sceneTriangles.push_back(Triangle(eBottom, cTop, cBottom, White));
+	sceneTriangles.push_back(Triangle(eBottom, eTop, cTop, Purple));
+	sceneTriangles.push_back(Triangle(eBottom, cTop, cBottom, Purple));
+	
+	//tetrahedron
+	Tetrahedron tet1{ Grey };
+
+	sceneTriangles.push_back(tet1.getTriangles()[0]);
+	sceneTriangles.push_back(tet1.getTriangles()[1]);
+	sceneTriangles.push_back(tet1.getTriangles()[2]);
+	sceneTriangles.push_back(tet1.getTriangles()[3]);
+
 	/*
 	// vit 1.0, 1.0, 1.0
 	//Golv
-	Triangle g_0{ vec3(5.0f, 0.0f, 5.0f), vec3(0.0f, 6.0f, 5.0f), vec3(-3.0f, 0.0f, 5.0f), colorDbl(0.0,0.0,0.0) };
-	Triangle g_1{ vec3(5.0f, 0.0f, 5.0f), vec3(10.0f, 6.0f, 5.0f), vec3(0.0f, 6.0f, 5.0f), colorDbl(0.0,0.0,0.0) };
-	Triangle g_2{ vec3(5.0f, 0.0f, 5.0f), vec3(13.0f, 0.0f, 5.0f), vec3(10.0f, 6.0f, 5.0f), colorDbl(0.0,0.0,0.0) };
+	Triangle g_0{ vec3(5.0f, 0.0f, -5.0f), vec3(0.0f, 6.0f, -5.0f), vec3(-3.0f, 0.0f, -5.0f), White };
+	Triangle g_1{ vec3(5.0f, 0.0f, -5.0f), vec3(10.0f, 6.0f, -5.0f), vec3(0.0f, 6.0f, -5.0f), White };
+	Triangle g_2{ vec3(5.0f, 0.0f, -5.0f), vec3(13.0f, 0.0f, -5.0f), vec3(10.0f, 6.0f, -5.0f), White };
 
-	Triangle g_3{ vec3(5.0f, 0.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), vec3(13.0f, 0.0f, 5.0f), colorDbl(0.0,0.0,0.0) };
-	Triangle g_4{ vec3(5.0f, 0.0f, 5.0f), vec3(0.0f, -6.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), colorDbl(0.0,0.0,0.0) };
-	Triangle g_5{ vec3(5.0f, 0.0f, 5.0f), vec3(-3.0f, 0.0f, 5.0f), vec3(0.0f, -6.0f, 5.0f), colorDbl(0.0,0.0,0.0) };
+	Triangle g_3{ vec3(5.0f, 0.0f, -5.0f), vec3(10.0f, -6.0f, -5.0f), vec3(13.0f, 0.0f, -5.0f), White };
+	Triangle g_4{ vec3(5.0f, 0.0f, -5.0f), vec3(0.0f, -6.0f, -5.0f), vec3(10.0f, -6.0f, -5.0f), White };
+	Triangle g_5{ vec3(5.0f, 0.0f, -5.0f), vec3(-3.0f, 0.0f, -5.0f), vec3(0.0f, -6.0f, -5.0f), White };
 	
 	sceneTriangles.push_back(g_0);
 	sceneTriangles.push_back(g_1);
@@ -94,13 +111,13 @@ void Scene::CreateRoom()
 	sceneTriangles.push_back(g_5);
 
 	//tak
-	Triangle t_0{ vec3(5.0f, 0.0f, 5.0f), vec3(-3.0f, 0.0f, 5.0f), vec3(0.0f, 6.0f, 5.0f), colorDbl(0.8, 1.0, 1.0) };
-	Triangle t_1{ vec3(5.0f, 0.0f, 5.0f), vec3(0.0f, 6.0f, 5.0f), vec3(10.0f, 6.0f, 5.0f), colorDbl(0.8, 1.0, 1.0) };
-	Triangle t_2{ vec3(5.0f, 0.0f, 5.0f), vec3(10.0f, 6.0f, 5.0f), vec3(13.0f, 0.0f, 5.0f), colorDbl(0.8, 1.0, 1.0) };
+	Triangle t_0{ vec3(5.0f, 0.0f, 5.0f), vec3(-3.0f, 0.0f, 5.0f), vec3(0.0f, 6.0f, 5.0f), Grey };
+	Triangle t_1{ vec3(5.0f, 0.0f, 5.0f), vec3(0.0f, 6.0f, 5.0f), vec3(10.0f, 6.0f, 5.0f), Grey };
+	Triangle t_2{ vec3(10.0f, 6.0f, 5.0f), vec3(5.0f, 0.0f, 5.0f), vec3(13.0f, 0.0f, 5.0f), Grey };
 
-	Triangle t_3{ vec3(5.0f, 0.0f, 5.0f), vec3(13.0f, 0.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), colorDbl(0.8, 1.0, 1.0) };
-	Triangle t_4{ vec3(5.0f, 0.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), vec3(0.0f, -6.0f, 5.0f), colorDbl(0.8, 1.0, 1.0) };
-	Triangle t_5{ vec3(5.0f, 0.0f, 5.0f), vec3(0.0f, -6.0f, 5.0f), vec3(-3.0f, 0.0f, 5.0f), colorDbl(0.8, 1.0, 1.0) };
+	Triangle t_3{ vec3(5.0f, 0.0f, 5.0f), vec3(13.0f, 0.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), Grey };
+	Triangle t_4{ vec3(5.0f, 0.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), vec3(0.0f, -6.0f, 5.0f), Grey };
+	Triangle t_5{ vec3(5.0f, 0.0f, 5.0f), vec3(0.0f, -6.0f, 5.0f), vec3(-3.0f, 0.0f, 5.0f), Grey };
 
 	sceneTriangles.push_back(t_0);
 	sceneTriangles.push_back(t_1);
@@ -110,23 +127,23 @@ void Scene::CreateRoom()
 	sceneTriangles.push_back(t_5);
 
 	//Väggar
-	Triangle w_0{ vec3(-3.0f, 0.0f, -5.0f), vec3(0.0f, 6.0f, -5.0f), vec3(-3.0f, 0.0f, 5.0f), colorDbl(1.0, 0.0, 0.0) };
-	Triangle w_1{ vec3(0.0f, 6.0f, 5.0f), vec3(-3.0f, 0.0f, 5.0f), vec3(-3.0f, 0.0f, -5.0f), colorDbl(1.0, 0.0, 0.0) };
+	Triangle w_0{ vec3(-3.0f, 0.0f, -5.0f), vec3(0.0f, 6.0f, -5.0f), vec3(-3.0f, 0.0f, 5.0f), Red };
+	Triangle w_1{ vec3(0.0f, 6.0f, 5.0f), vec3(-3.0f, 0.0f, 5.0f), vec3(-3.0f, 0.0f, -5.0f), Red };
 	
-	Triangle w_2{ vec3(0.0f, 6.0f, -5.0f), vec3(10.0f, 6.0f, -5.0f), vec3(0.0f, 6.0f, 5.0f), colorDbl(0.0, 1.0, 0.0) };
-	Triangle w_3{ vec3(10.0f, 6.0f, 5.0f), vec3(0.0f, 6.0f, 5.0f), vec3(10.0f, 6.0f, -5.0f), colorDbl(0.0, 1.0, 0.0) };
+	Triangle w_2{ vec3(0.0f, 6.0f, -5.0f), vec3(10.0f, 6.0f, -5.0f), vec3(0.0f, 6.0f, 5.0f), Green };
+	Triangle w_3{ vec3(10.0f, 6.0f, 5.0f), vec3(0.0f, 6.0f, 5.0f), vec3(10.0f, 6.0f, -5.0f), Green };
 	
-	Triangle w_4{ vec3(10.0f, 6.0f, -5.0f), vec3(13.0f, 0.0f, -5.0f), vec3(-3.0f, 0.0f, 5.0f), colorDbl(0.0, 0.0, 1.0) };
-	Triangle w_5{ vec3(13.0f, 0.0f, 5.0f), vec3(10.0f, 6.0f, 5.0f), vec3(13.0f, 0.0f, -5.0f), colorDbl(0.0, 0.0, 1.0) };
+	Triangle w_4{ vec3(10.0f, 6.0f, -5.0f), vec3(13.0f, 0.0f, -5.0f), vec3(-3.0f, 0.0f, 5.0f), Blue };
+	Triangle w_5{ vec3(13.0f, 0.0f, 5.0f), vec3(10.0f, 6.0f, 5.0f), vec3(13.0f, 0.0f, -5.0f), Blue };
 	
-	Triangle w_6{ vec3(13.0f, 0.0f, -5.0f), vec3(10.0f, -6.0f, -5.0f), vec3(13.0f, 0.0f, 5.0f), colorDbl(1.0, 1.0, 0.0) };
-	Triangle w_7{ vec3(10.0f, -6.0f, 5.0f), vec3(13.0f, 0.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), colorDbl(1.0, 1.0, 0.0) };
+	Triangle w_6{ vec3(13.0f, 0.0f, -5.0f), vec3(10.0f, -6.0f, -5.0f), vec3(13.0f, 0.0f, 5.0f), Yellow };
+	Triangle w_7{ vec3(10.0f, -6.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), vec3(13.0f, 0.0f, 5.0f),  Yellow };
 	
-	Triangle w_8{ vec3(10.0f, -6.0f, -5.0f), vec3(0.0f, -6.0f, -5.0f), vec3(10.0f, -6.0f, 5.0f), colorDbl(1.0, 0.0, 1.0) };
-	Triangle w_9{ vec3(0.0f, -6.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), vec3(0.0f, -6.0f, -5.0f), colorDbl(1.0, 0.0, 1.0) };
+	Triangle w_8{ vec3(10.0f, -6.0f, -5.0f), vec3(0.0f, -6.0f, -5.0f), vec3(10.0f, -6.0f, 5.0f), Purple };
+	Triangle w_9{ vec3(0.0f, -6.0f, 5.0f), vec3(10.0f, -6.0f, 5.0f), vec3(0.0f, -6.0f, -5.0f), Purple };
 	
-	Triangle w_10{ vec3(0.0f, -6.0f, -5.0f), vec3(-3.0f, 0.0f, -5.0f), vec3(0.0f, -6.0f, 5.0f), colorDbl(1.0, 1.0, 1.0) };
-	Triangle w_11{ vec3(-3.0f, 0.0f, 5.0f), vec3(0.0f, -6.0f, 5.0f), vec3(-3.0f, 0.0f, -5.0f), colorDbl(1.0, 1.0, 1.0) };
+	Triangle w_10{ vec3(0.0f, -6.0f, -5.0f), vec3(-3.0f, 0.0f, -5.0f), vec3(0.0f, -6.0f, 5.0f), Yellow };
+	Triangle w_11{ vec3(-3.0f, 0.0f, 5.0f), vec3(0.0f, -6.0f, 5.0f), vec3(-3.0f, 0.0f, -5.0f), Purple };
 
 	sceneTriangles.push_back(w_0);
 	sceneTriangles.push_back(w_1);
@@ -146,18 +163,37 @@ void Scene::CreateRoom()
 void Scene::AddObjects()
 {
 	
+
+
 }
 
-Triangle Scene::whichIsHit(const Ray &aRay)
+Triangle Scene::whichIsHit(const Ray &aRay, vec3& intersection)
 {
+	bool hit = false;
+	//std::vector<Triangle> hitTriangles;
 
-	
+	vec3 point;
+	vec3 hi(0, 0, 0);
+	Triangle hitTriangle{ Triangle(hi, hi, hi, hi) };
+	float closestDist = 100.0f;
+	int location = 0;
 	for (auto i = sceneTriangles.begin(); i != sceneTriangles.end(); ++i) {
-		if (i->RayIntersection(aRay)) {
-			return *i;
+		if (i->RayIntersection(aRay, point)) {
+			if (length((i->getMid() - aRay.GetStart())) < closestDist)
+			{
+				intersection = point;
+				hitTriangle = *i;
+				++location;
+			}
+			//hitTriangles.push_back(*i);
 		}
 	}
-	vec3 hi(0,0,0);
-	return Triangle(hi, hi, hi, hi);
 
+	/*
+	for (auto i = hitTriangles.begin(); i != hitTriangles.end(); ++i) {
+
+	}*/
+
+	return hitTriangle;
+	
 }
