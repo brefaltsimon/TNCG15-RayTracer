@@ -35,12 +35,12 @@ void Camera::ShootRay(Scene &scene) {
 				Ray shadowRay = Ray(rayEnd, vec3(5, 0, 5)- rayEnd);
 				Triangle shadowHit = scene.whichIsHit(shadowRay, rayEnd);
 
-				if (length(rayEnd - vec3(5, 0, 5)) < length(shadowCastPoint - vec3(5, 0, 5)) && length(rayEnd - vec3(5, 0, 5)) > 0.5f) {
+				if (length(rayEnd - vec3(5, 0, 5)) < length(shadowCastPoint - vec3(5, 0, 5)) && length(rayEnd - vec3(5, 0, 5)) > 0.5f) //(shadow rayens intersektionpunkt -> ljus) < (orginalray -> ljus) 
+				{
 					shotRay.setColor(colorDbl(0.0f, 0.0f, 0.0f));
 				}
 				else {
-					
-					
+										
 					shotRay.setColor(hit.getColor());
 				}
 

@@ -1,6 +1,6 @@
 #include "Header/Tetrahedron.h"
 
-Tetrahedron::Tetrahedron(colorDbl color)
+Tetrahedron::Tetrahedron(Surface color)
 {
 
 	vec3 v0, v1, v2, v3;
@@ -9,7 +9,7 @@ Tetrahedron::Tetrahedron(colorDbl color)
 	v2 = vec3( 6.0, -2.0, -3.0);
 	v3 = vec3( 8.0, -3.0, 0.0);
 
-	Triangle t0 = Triangle(v2, v1, v0,color); // botten
+	Triangle t0 = Triangle(v2, v1, v0, color); // botten
 	Triangle t1 = Triangle(v1, v3, v0, color); //mot v1/v0 sidan
 	Triangle t2 = Triangle(v2, v0, v3, color); //mot v3 sidan
 	Triangle t3 = Triangle(v2, v3, v1, color); //mot v2/v1 sidan
@@ -18,7 +18,6 @@ Tetrahedron::Tetrahedron(colorDbl color)
 	triangles.push_back(t1);
 	triangles.push_back(t2);
 	triangles.push_back(t3);
-	
 	
 }
 

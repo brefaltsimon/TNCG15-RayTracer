@@ -7,13 +7,14 @@
 #include <vector>
 #include <array>
 
-
-Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2, colorDbl clr)
+//Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2, colorDbl clr, const Surface &surf)
+Triangle::Triangle(vec3 v0, vec3 v1, vec3 v2, const Surface &surf)
 {
 	positions[0] = v0;
 	positions[1] = v1;
 	positions[2] = v2;
-	color = clr;
+	surface = surf;
+	//color = clr;
 	direction v0v1 = v1 - v0;
 	direction v1v2 = v1 - v2;
 	normal = glm::normalize(glm::cross(v1v2, v0v1));
@@ -36,8 +37,10 @@ bool Triangle::RayIntersection(const Ray& arg, vec3 &intersection)
 	vec3 Egde_2 = positions[2] - positions[0];
 	vec3 T = arg.GetStart() - positions[0]; //punkt p triangeln rayToVertex
 	vec3 Direction = glm::normalize(arg.GetDirection()); //riktning s detta blir en in variabel?
+
 	vec3 Q = glm::cross(T, Edge_1);
 	vec3 P = glm::cross(Direction, Egde_2);
+
 	float t = glm::dot(Q, Egde_2) / glm::dot(P, Edge_1);
 
 	float utest = glm::dot(P,T) / glm::dot(P, Edge_1);
@@ -46,7 +49,7 @@ bool Triangle::RayIntersection(const Ray& arg, vec3 &intersection)
 	if (utest >= EPSILON && vtest >= EPSILON && (utest + vtest <= 1)) // u > 0 , v > 0 och u + v <=1
 	{
 
-		if (t > 0.0f) {
+		if (t > EPSILON) {
 			u = utest;
 			v = vtest;
 			intersection = (1.0f - u - v) * positions[0] + u * positions[1] + v * positions[2]; //Räknar ut interktionpunkten

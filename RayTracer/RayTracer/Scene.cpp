@@ -37,13 +37,13 @@ void Scene::CreateRoom()
 	glm::vec3 eBottom(0.0f, -6.0f, -5.0f), eTop(0.0f, -6.0f, 5.0f);
 	glm::vec3 fBottom(-3.0f, 0.0f, -5.0f), fTop(-3.0f, 0.0f, 5.0f);
 
-	colorDbl White = colorDbl(1.0f);
-	colorDbl Grey = colorDbl(0.5f);
-	colorDbl Red = colorDbl(1.0f, 0.0f, 0.0f);
-	colorDbl Green = colorDbl(0.0f, 1.0f, 0.0f);
-	colorDbl Blue = colorDbl(0.0f, 0.0f, 1.0f);
-	colorDbl Yellow = colorDbl(1.0f, 1.0f, 0.0f);
-	colorDbl Purple = colorDbl(1.0f, 0.0f, 1.0f);
+	Surface White = colorDbl(1.0f);
+	Surface Grey = colorDbl(0.5f);
+	Surface Red = colorDbl(1.0f, 0.0f, 0.0f);
+	Surface Green = colorDbl(0.0f, 1.0f, 0.0f);
+	Surface Blue = colorDbl(0.0f, 0.0f, 1.0f);
+	Surface Yellow = colorDbl(1.0f, 1.0f, 0.0f);
+	Surface Purple = colorDbl(1.0f, 0.0f, 1.0f);
 
 	//const Surface White(colorDbl(1.0f));
 	//const Surface Grey(colorDbl(0.5f));
@@ -91,6 +91,22 @@ void Scene::CreateRoom()
 	sceneTriangles.push_back(tet1.getTriangles()[1]);
 	sceneTriangles.push_back(tet1.getTriangles()[2]);
 	sceneTriangles.push_back(tet1.getTriangles()[3]);
+
+	vec3 v0, v1, v2, v3;
+	v0 = vec3(8.0, 4.0, -3.0);
+	v1 = vec3(7.0, 1.0, -2.0);
+	v2 = vec3(4.0, 2.0, -2.0);
+	v3 = vec3(6.0, 2.0, 1.0);
+
+	Triangle t0 = Triangle(v2, v1, v0, Purple); // botten
+	Triangle t1 = Triangle(v1, v3, v0, Purple); //mot v1/v0 sidan
+	Triangle t2 = Triangle(v2, v0, v3, Purple); //mot v3 sidan
+	Triangle t3 = Triangle(v2, v3, v1, Purple); //mot v2/v1 sidan
+
+	sceneTriangles.push_back(t0);
+	sceneTriangles.push_back(t1);
+	sceneTriangles.push_back(t2);
+	sceneTriangles.push_back(t3);
 
 	/*
 	// vit 1.0, 1.0, 1.0
@@ -174,7 +190,8 @@ Triangle Scene::whichIsHit(const Ray &aRay, vec3& intersection)
 
 	vec3 point;
 	vec3 hi(0, 0, 0);
-	Triangle hitTriangle{ Triangle(hi, hi, hi, hi) };
+	Surface hey;
+	Triangle hitTriangle{ Triangle(hi, hi, hi, hey) };
 	float closestDist = 100.0f;
 	int location = 0;
 	for (auto i = sceneTriangles.begin(); i != sceneTriangles.end(); ++i) {

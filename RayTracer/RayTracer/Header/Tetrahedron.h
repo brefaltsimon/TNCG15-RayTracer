@@ -1,13 +1,14 @@
 #pragma once
 #include "definitions.h"
 #include "Triangle.h"
+#include "Surface.h"
 
 #include <vector>
 
 class Tetrahedron {
 public:
 
-	Tetrahedron(colorDbl color);
+	Tetrahedron(Surface color);
 	Tetrahedron(vec3 position, float sideLength);
 
 
@@ -16,6 +17,5 @@ public:
 private:
 
 	std::vector<Triangle> triangles;
-
 
 };
