@@ -6,9 +6,3 @@ Surface::Surface(const colorDbl& surfaceColor, const int& reflModel)
 	color = surfaceColor;
 
 }
-
-const colorDbl& Surface::GetColor() const
-{
-	// TODO: insert return statement here
-	return color;
-}

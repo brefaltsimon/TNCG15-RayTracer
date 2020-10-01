@@ -31,34 +31,32 @@ void Camera::ShootRay(Scene &scene) {
 				//Ta fram den triangeln som har blivit träffad och ge rayen den färgen
 				Triangle hit = scene.whichIsHit(shotRay, rayEnd);
 				vec3 shadowCastPoint = rayEnd;
+
 				//shoot shadow ray towards light
 				Ray shadowRay = Ray(rayEnd, vec3(5, 0, 5)- rayEnd);
 				Triangle shadowHit = scene.whichIsHit(shadowRay, rayEnd);
 
+
 				if (length(rayEnd - vec3(5, 0, 5)) < length(shadowCastPoint - vec3(5, 0, 5)) && length(rayEnd - vec3(5, 0, 5)) > 0.5f) //(shadow rayens intersektionpunkt -> ljus) < (orginalray -> ljus) 
 				{
-					shotRay.setColor(colorDbl(0.0f, 0.0f, 0.0f));
+					shotRay.setColor(hit.getColor() * colorDbl(0.2f));
 				}
 				else {
 										
 					shotRay.setColor(hit.getColor());
 				}
-
-				/*
-				if (length(rayEnd - vec3(5, 0, 5)) < 1.0f) {
-					shotRay.setColor(hit.getColor());
-				}
-				else {
-					shotRay.setColor(colorDbl(0.0f, 0.0f, 0.0f));
-				}*/
-
 				
 				p.addRay(shotRay);
 				viewPlane[j][i] = p;
 			}
 		}
+}
+void Camera::ShootShadowRay(Ray& ray)
+{
 
 }
+
+
 
 void Camera::Render()
 {

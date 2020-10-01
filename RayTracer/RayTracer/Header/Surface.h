@@ -1,17 +1,15 @@
 #pragma once
 #include "definitions.h"
 
-const int DIFFUSE = 0;
-const int MIRROR = 1;
-const int LIGHTSOURCE = 2;
-const int TRANSPARENT = 3;
+
 
 
 class Surface {
 public:
 	Surface(const colorDbl &surfaceColor = colorDbl(0.0, 0.0, 0.0), const int& reflModel = DIFFUSE);
 
-	const colorDbl& GetColor() const;
+	const colorDbl& GetColor() const { return color; };
+	const int& GetRelf() const { return reflectionModel; };
 
 private:
 	colorDbl color;
@@ -19,3 +17,18 @@ private:
 	int reflectionModel;
 
 };
+
+/*
+type fun(type) {
+
+	if (hitObject().transparent()) {
+		2rays = true;
+	}
+
+	fun(type); //reflected
+	if (2rays) {
+		fun(type); //refracted
+	}
+
+}
+*/

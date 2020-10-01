@@ -8,3 +8,19 @@ Ray::Ray(vec3 startPoint, vec3 dir)
 	color = vec3(0.0, 0.0, 0.0);
 }
 
+Ray Ray::Bounce(const vec3& position, const vec3& normal, const bool reflect, const float& breakIndex) const {
+	
+	vec3 newDirection(0.0f);
+
+	if (reflect) {
+		vec3 newDirection = glm::reflect(direction, normal);
+	}
+	else {
+		vec3 newDirection = glm::refract(direction, normal, breakIndex);
+	}
+
+	Ray r(position, newDirection);
+	
+	return r;
+}
+

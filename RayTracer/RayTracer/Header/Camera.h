@@ -14,6 +14,8 @@ public:
 	void ShootRay(Scene& scene);
 	void Render();
 	void CreateImage(Scene& theScene);
+	void ShootShadowRay(Ray& ray);
+	 
 
 
 private:

@@ -15,6 +15,7 @@ public:
 	vec3  GetStart() const { return start; };
 	vec3  GetDirection() const { return direction; };
 	vec3  GetColor() const { return color; };
+	Ray   Bounce(const vec3& position, const vec3& normal, const bool reflect, const float& breakIndex) const;
 	
 
 private:

@@ -14,6 +14,7 @@ public:
 	//Triangle(vec3 v0, vec3 v1, vec3 v2, colorDbl clr, const Surface &surf = Surface());
 	Triangle(vec3 v0, vec3 v1, vec3 v2, const Surface &surf = Surface());
 	colorDbl getColor() const {return surface.GetColor();};
+	int getReflModel() const { return surface.GetRelf(); };
 
 	vec3 getMid();
 
