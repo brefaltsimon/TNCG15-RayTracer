@@ -11,10 +11,11 @@ class Camera {
 public:
 	Camera();
 
-	void ShootRay(Scene& scene);
-	void Render();
+	colorDbl ShootRay(Ray& ray,  Scene& Scene);
+	void Render(Scene& scene);
 	void CreateImage(Scene& theScene);
 	void ShootShadowRay(Ray& ray);
+
 	 
 
 

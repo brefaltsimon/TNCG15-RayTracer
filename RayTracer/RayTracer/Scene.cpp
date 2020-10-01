@@ -44,6 +44,7 @@ void Scene::CreateRoom()
 	Surface Blue = colorDbl(0.0f, 0.0f, 1.0f);
 	Surface Yellow = colorDbl(1.0f, 1.0f, 0.0f);
 	Surface Purple = colorDbl(1.0f, 0.0f, 1.0f);
+	Surface Mirror{ colorDbl(0.0f), MIRROR };
 
 	//const Surface White(colorDbl(1.0f));
 	//const Surface Grey(colorDbl(0.5f));
@@ -78,14 +79,16 @@ void Scene::CreateRoom()
 	sceneTriangles.push_back(Triangle(aBottom, aTop, bTop, Green));
 	sceneTriangles.push_back(Triangle(aBottom, bTop, bBottom, Green));
 	// Right side front
-	sceneTriangles.push_back(Triangle(cBottom, cTop, aTop, Red));
-	sceneTriangles.push_back(Triangle(cBottom, aTop, aBottom, Red));
+	sceneTriangles.push_back(Triangle(cBottom, cTop, aTop, Mirror));
+	sceneTriangles.push_back(Triangle(cBottom, aTop, aBottom, Mirror));
 	// Right side center
 	sceneTriangles.push_back(Triangle(eBottom, eTop, cTop, Purple));
 	sceneTriangles.push_back(Triangle(eBottom, cTop, cBottom, Purple));
 	
+
+
 	//tetrahedron
-	Tetrahedron tet1{ Grey };
+	Tetrahedron tet1{ Mirror };
 
 	sceneTriangles.push_back(tet1.getTriangles()[0]);
 	sceneTriangles.push_back(tet1.getTriangles()[1]);
@@ -185,9 +188,6 @@ void Scene::AddObjects()
 
 Triangle Scene::whichIsHit(const Ray &aRay, vec3& intersection)
 {
-	bool hit = false;
-	//std::vector<Triangle> hitTriangles;
-
 	vec3 point;
 	vec3 hi(0, 0, 0);
 	Surface hey;
@@ -202,14 +202,8 @@ Triangle Scene::whichIsHit(const Ray &aRay, vec3& intersection)
 				hitTriangle = *i;
 				++location;
 			}
-			//hitTriangles.push_back(*i);
 		}
 	}
-
-	/*
-	for (auto i = hitTriangles.begin(); i != hitTriangles.end(); ++i) {
-
-	}*/
 
 	return hitTriangle;
 	

@@ -16,52 +16,69 @@ Camera::Camera()
 
 }
 
-void Camera::ShootRay(Scene &scene) {
-
-	for (int i = 0; i < 800; ++i) {
-			for (int j = 0; j < 800; ++j) 
-			{
-				//skjut en ray i riktning mot pixeln
-				Pixel p;
-				vec3 rayEnd = p.getMidOfPixel(j, i);
-				Ray shotRay = Ray(eye1, rayEnd-eye1);
-				//shotRay.SetDirection(rayEnd-eye1);
-				
-				
-				//Ta fram den triangeln som har blivit träffad och ge rayen den färgen
-				Triangle hit = scene.whichIsHit(shotRay, rayEnd);
-				vec3 shadowCastPoint = rayEnd;
-
-				//shoot shadow ray towards light
-				Ray shadowRay = Ray(rayEnd, vec3(5, 0, 5)- rayEnd);
-				Triangle shadowHit = scene.whichIsHit(shadowRay, rayEnd);
-
-
-				if (length(rayEnd - vec3(5, 0, 5)) < length(shadowCastPoint - vec3(5, 0, 5)) && length(rayEnd - vec3(5, 0, 5)) > 0.5f) //(shadow rayens intersektionpunkt -> ljus) < (orginalray -> ljus) 
-				{
-					shotRay.setColor(hit.getColor() * colorDbl(0.2f));
-				}
-				else {
-										
-					shotRay.setColor(hit.getColor());
-				}
-				
-				p.addRay(shotRay);
-				viewPlane[j][i] = p;
-			}
-		}
-}
 void Camera::ShootShadowRay(Ray& ray)
 {
 
 }
 
+colorDbl Camera::ShootRay(Ray& ray, Scene &scene) {
+
+	vec3 rayEnd = vec3(0.0f);
+
+	//Ta fram den triangeln som har blivit träffad och ge rayen den färgen
+	Triangle hit = scene.whichIsHit(ray, rayEnd);
+	vec3 intersectionPoint = rayEnd;
+	
+	if (hit.getReflModel() == DIFFUSE) {
+
+		//shoot shadow ray towards light
+		Ray shadowRay = Ray(rayEnd, vec3(5, 0, 5) - rayEnd);
+		Triangle shadowHit = scene.whichIsHit(shadowRay, rayEnd);
 
 
-void Camera::Render()
+		if (length(rayEnd - vec3(5, 0, 5)) < length(intersectionPoint - vec3(5, 0, 5)) && length(rayEnd - vec3(5, 0, 5)) > 0.5f) //(shadow rayens intersektionpunkt -> ljus) < (orginalray -> ljus) 
+		{
+			ray.setColor(hit.getColor() * colorDbl(0.2f));
+		}
+		else {
+
+			ray.setColor(hit.getColor());
+		}
+
+	} 
+	else if (hit.getReflModel() == MIRROR) {
+		//calculate new dir
+	
+		Ray reflectedRay = ray.Bounce(intersectionPoint, hit.getNormal(), true, 0);
+
+		//keep shooting & return what was returned later on
+		return ShootRay(reflectedRay, scene);
+	}
+	/**/
+
+	return ray.GetColor();
+}
+
+void Camera::Render(Scene& scene)
 {
 
-	
+	for (int i = 0; i < 800; ++i) {
+		for (int j = 0; j < 800; ++j)
+		{
+			//skjut en ray i riktning mot pixeln
+			Pixel p;
+			vec3 rayEnd = p.getMidOfPixel(j, i);
+			Ray shotRay = Ray(eye1, rayEnd - eye1);
+			//shotRay.SetDirection(rayEnd-eye1);
+
+			shotRay.setColor(ShootRay(shotRay, scene));
+
+			
+
+			p.addRay(shotRay);
+			viewPlane[j][i] = p;
+		}
+	}
 
 }
 
@@ -74,7 +91,7 @@ void Camera::CreateImage(Scene &theScene)
 	img << width << " " << height << std::endl;
 	img << "255" << std::endl;
 
-	ShootRay(theScene);
+	Render(theScene);
 	//sätt in våra pixel värden på ett coolt sätt
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {

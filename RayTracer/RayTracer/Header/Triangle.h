@@ -17,6 +17,7 @@ public:
 	int getReflModel() const { return surface.GetRelf(); };
 
 	vec3 getMid();
+	direction getNormal() { return normal;}
 
 	bool RayIntersection(const Ray& arg, vec3& intersection);
 

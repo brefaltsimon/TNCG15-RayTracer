@@ -13,10 +13,10 @@ Ray Ray::Bounce(const vec3& position, const vec3& normal, const bool reflect, co
 	vec3 newDirection(0.0f);
 
 	if (reflect) {
-		vec3 newDirection = glm::reflect(direction, normal);
+		newDirection = glm::reflect(direction, normal);
 	}
 	else {
-		vec3 newDirection = glm::refract(direction, normal, breakIndex);
+		newDirection = glm::refract(direction, normal, breakIndex);
 	}
 
 	Ray r(position, newDirection);
