@@ -21,40 +21,79 @@ void Camera::ShootShadowRay(Ray& ray)
 
 }
 
+bool Camera::InShade(vec3& rayEnd, Scene& scene)
+{
+	bool inShade = false;
+	//check for triangle hit
+	Ray shadowRay = Ray(rayEnd, vec3(5, 0, 5) - rayEnd);
+	Triangle shadowHit = scene.whichIsHit(shadowRay, rayEnd);
+	if (length(rayEnd - vec3(5, 0, 5)) < length(shadowRay.GetStart() - vec3(5, 0, 5)) && length(rayEnd - vec3(5, 0, 5)) > 0.5f) {
+		inShade = true;
+	}
+	//check sphere hit
+	Sphere hitSphere{};
+	float distanceToIntersecion = 100.0f;
+	vec3 intersection = shadowRay.GetStart();
+	if (scene.SphereHit(shadowRay, distanceToIntersecion, intersection, hitSphere) && glm::dot(vec3(shadowRay.GetStart() - vec3(5.0f, 0.0f, 5.0f)), vec3(shadowRay.GetStart() - hitSphere.getCenter())) > 0 ) {
+		inShade = true;
+	}
+
+	return inShade;
+}
+
 colorDbl Camera::ShootRay(Ray& ray, Scene &scene) {
 
 	vec3 rayEnd = vec3(0.0f);
-
+	vec3 intersectionPoint;
+	//if hit a sphere, we dont check for triangle hits from origin ray because we dont need to find whats behind the sphere
+	float distanceToIntersecion = 100.0f;
+	//else we check for triangle hits
 	//Ta fram den triangeln som har blivit träffad och ge rayen den färgen
-	Triangle hit = scene.whichIsHit(ray, rayEnd);
-	vec3 intersectionPoint = rayEnd;
-	
-	if (hit.getReflModel() == DIFFUSE) {
+	Sphere hitSphere{};
+	if(scene.SphereHit(ray, distanceToIntersecion, intersectionPoint, hitSphere)) {
+		
+	}
 
-		//shoot shadow ray towards light
-		Ray shadowRay = Ray(rayEnd, vec3(5, 0, 5) - rayEnd);
-		Triangle shadowHit = scene.whichIsHit(shadowRay, rayEnd);
-
-
-		if (length(rayEnd - vec3(5, 0, 5)) < length(intersectionPoint - vec3(5, 0, 5)) && length(rayEnd - vec3(5, 0, 5)) > 0.5f) //(shadow rayens intersektionpunkt -> ljus) < (orginalray -> ljus) 
-		{
-			ray.setColor(hit.getColor() * colorDbl(0.2f));
+	Triangle hitTriangle = scene.whichIsHit(ray, rayEnd);
+	if (length(ray.GetStart() - rayEnd) < distanceToIntersecion) {
+		intersectionPoint = rayEnd;
+		if (hitTriangle.getReflModel() == DIFFUSE) {
+			//shoot shadow ray towards light
+			//direction lightNormal = vec3(0, 0, -1);
+			 //(shadow rayens intersektionpunkt -> ljus) < (orginalray -> ljus) 
+			//if(glm::dot(rayEnd, shadowHit.getNormal()) > 0)
+			if(InShade(intersectionPoint, scene)) 
+			{
+				ray.setColor(hitTriangle.getColor() * colorDbl(0.15f));
+			}
+			else {
+				ray.setColor(hitTriangle.getColor());
+			}
 		}
-		else {
+		else if (hitTriangle.getReflModel() == MIRROR) {
+			//calculate new dir
+			Ray reflectedRay = ray.Bounce(intersectionPoint, hitTriangle.getNormal(), true, 0);
 
-			ray.setColor(hit.getColor());
+			//keep shooting & return what was returned later on
+			return ShootRay(reflectedRay, scene);
 		}
+	}
+	else {
+		if (hitSphere.getSurface().GetRefl() == DIFFUSE) {
 
-	} 
-	else if (hit.getReflModel() == MIRROR) {
+			if (InShade(intersectionPoint, scene))
+			{
+				ray.setColor(hitSphere.getSurface().GetColor() * colorDbl(0.1f));
+			}
+
+		} else if (hitSphere.getSurface().GetRefl() == MIRROR) {
 		//calculate new dir
-	
-		Ray reflectedRay = ray.Bounce(intersectionPoint, hit.getNormal(), true, 0);
+			Ray reflectedRay = ray.Bounce(intersectionPoint, vec3(intersectionPoint - hitSphere.getCenter()) + hitSphere.getRadius()*1.003f, true, 0);
 
 		//keep shooting & return what was returned later on
-		return ShootRay(reflectedRay, scene);
+			return ShootRay(reflectedRay, scene);
+		}
 	}
-	/**/
 
 	return ray.GetColor();
 }
@@ -73,13 +112,10 @@ void Camera::Render(Scene& scene)
 
 			shotRay.setColor(ShootRay(shotRay, scene));
 
-			
-
 			p.addRay(shotRay);
 			viewPlane[j][i] = p;
 		}
 	}
-
 }
 
 void Camera::CreateImage(Scene &theScene)

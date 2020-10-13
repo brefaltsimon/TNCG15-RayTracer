@@ -6,6 +6,7 @@
 
 #include <array>
 #include <vector>
+#include <iostream>
 
 class Camera {
 public:
@@ -15,9 +16,7 @@ public:
 	void Render(Scene& scene);
 	void CreateImage(Scene& theScene);
 	void ShootShadowRay(Ray& ray);
-
-	 
-
+	bool InShade(vec3& rayEnd, Scene& scene);
 
 private:
 	float pixeLength = 0.0025f;

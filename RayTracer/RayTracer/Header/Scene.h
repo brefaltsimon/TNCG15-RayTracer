@@ -2,8 +2,10 @@
 #include "definitions.h"
 #include "Triangle.h"
 #include "Tetrahedron.h"
+#include "Sphere.h"
+#include "Ray.h"
 
-
+#include <iostream>
 #include <vector>
 #include <array>
 
@@ -17,8 +19,11 @@ public:
 
 	Triangle whichIsHit(const Ray &aRay, vec3& intersection);
 
+	bool SphereHit(Ray& r, float& distToIntersection, vec3& intersection, Sphere& s);
+
 private:
 	std::vector<Triangle> sceneTriangles;
+	std::vector<Sphere> sceneSpheres;
 	//std::vector<Triangle> sceneObjectTriangles;
 
 };
