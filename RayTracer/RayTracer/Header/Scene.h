@@ -4,6 +4,7 @@
 #include "Tetrahedron.h"
 #include "Sphere.h"
 #include "Ray.h"
+#include "Light.h"
 
 #include <iostream>
 #include <vector>
@@ -19,7 +20,7 @@ public:
 
 	Triangle whichIsHit(const Ray &aRay, vec3& intersection);
 
-	bool SphereHit(Ray& r, float& distToIntersection, vec3& intersection, Sphere& s);
+	bool SphereHit(const Ray& r, float& distToIntersection, vec3& intersection, Sphere& s);
 
 private:
 	std::vector<Triangle> sceneTriangles;

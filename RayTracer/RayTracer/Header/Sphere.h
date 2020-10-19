@@ -8,8 +8,10 @@ public:
 	Sphere(float radius, vec3 pos, Surface surf = Surface()) : r{ radius }, center{ pos }, theSurf{surf} {};
 
 	vec3 getCenter() {return center; };
+	vec3 getNormal(const vec3& point) { return glm::normalize(point - center); };
 	float getRadius() {return r; };
 	Surface getSurface() {return theSurf;};
+	bool isHit();
 
 private:
 

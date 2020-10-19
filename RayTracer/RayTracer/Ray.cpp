@@ -4,7 +4,7 @@
 Ray::Ray(vec3 startPoint, vec3 dir)
 {
 	start = startPoint;
-	direction = dir;
+	direction = glm::normalize(dir);
 	color = vec3(0.0, 0.0, 0.0);
 }
 
@@ -19,7 +19,7 @@ Ray Ray::Bounce(const vec3& position, const vec3& normal, const bool reflect, co
 		newDirection = glm::refract(direction, normal, breakIndex);
 	}
 
-	Ray r(position, newDirection);
+	Ray r(position, glm::normalize(newDirection));
 	
 	return r;
 }

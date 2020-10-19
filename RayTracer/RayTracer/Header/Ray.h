@@ -11,6 +11,7 @@ public:
 
 	void SetDirection(const vec3& dir) { direction = dir; };
 	void setColor(const colorDbl& Raycolor) { color = Raycolor; };
+	void AddColor(const colorDbl& Raycolor) { color += Raycolor; };
 
 	vec3  GetStart() const { return start; };
 	vec3  GetDirection() const { return direction; };

@@ -79,7 +79,7 @@ void Scene::CreateRoom()
 	sceneTriangles.push_back(Triangle(eBottom, cTop, cBottom, Purple));
 
 	//tetrahedron
-	//Tetrahedron tet1{ Mirror };
+	Tetrahedron tet1{ Mirror };
 
 	//sceneTriangles.push_back(tet1.getTriangles()[0]);
 	//sceneTriangles.push_back(tet1.getTriangles()[1]);
@@ -102,13 +102,21 @@ void Scene::CreateRoom()
 	sceneTriangles.push_back(t2);
 	sceneTriangles.push_back(t3);
 
-	Sphere s1(1.0f, vec3(10.0f, 3.0f, 0.0f), Mirror);
+	Sphere s1(1.0f, vec3(10.0f, 3.0f, 0.0f), Indigo);
 	Sphere s2(1.0f, vec3(10.0f, 0.0f, 3.0f), KindaGreen);
-	Sphere s3(1.0f, vec3(10.0f, 0.0f, 0.0f), Indigo);
+	Sphere s3(1.0f, vec3(8.0f, 0.0f, -1.0f), Mirror);
 	
-	sceneSpheres.push_back(s1);
-	sceneSpheres.push_back(s2);
+	//sceneSpheres.push_back(s1);
+	//sceneSpheres.push_back(s2);
 	sceneSpheres.push_back(s3);
+
+	//add the light
+	/*
+	Light theLight{};
+	auto lightTri = theLight.getTriangles();
+	for (auto i = lightTri.begin(); i != lightTri.end(); ++i) {
+		sceneTriangles.push_back(*i);
+	}*/
 
 }
 
@@ -117,32 +125,123 @@ void Scene::AddObjects()
 
 }
 
-bool Scene::SphereHit(Ray& r, float& distToIntersection, vec3& intersection, Sphere& s){
+bool Scene::SphereHit(const Ray& r, float& distToIntersection, vec3& intersection, Sphere& s){
+	
+	int hits = 0;
+	for (int i = 0; i < sceneSpheres.size(); ++i) {
+		Sphere tempS = sceneSpheres[i];
+		glm::vec3 rayOrigin = r.GetStart();
+		glm::vec3 sphereCenter = tempS.getCenter();
+		float sphereRadius = tempS.getRadius();
+
+		float b = glm::dot((2.0f * r.GetDirection()), (rayOrigin - sphereCenter));
+		float ac = glm::dot(rayOrigin - sphereCenter, rayOrigin - sphereCenter) - glm::pow(sphereRadius, 2);
+		float d1 = -b / 2.0f;
+		float d2 = d1;
+		float bsqrt = glm::pow(d1, 2) - ac;
+		d1 += bsqrt;
+		d2 -= bsqrt;
+
+		if (bsqrt < EPSILON)
+			continue;
+
+		bsqrt = glm::sqrt(bsqrt);
+		if (d1 <= 0 && d2 <= 0) {
+			continue;
+		}
+		else if (d2 < d1 && length((rayOrigin + d2 * r.GetDirection()) - r.GetStart()) < distToIntersection) {
+			s = tempS;
+			intersection = rayOrigin + d2 * r.GetDirection();
+			distToIntersection = length(intersection - r.GetStart());
+			++hits;
+		}
+		else if (d1 < d2 && length((rayOrigin + d2 * r.GetDirection()) - r.GetStart())  < distToIntersection) {
+			s = tempS;
+			intersection = rayOrigin + d1 * r.GetDirection();
+			distToIntersection = length(intersection - r.GetStart());
+			++hits;
+		}
+		else if(length((rayOrigin + d2 * r.GetDirection()) - r.GetStart()) < distToIntersection){
+			s = tempS;
+			intersection = rayOrigin + d2 * r.GetDirection();
+			distToIntersection = length(intersection - r.GetStart());
+			++hits;
+		}
+
+	}
+
+	if (hits > 0) return true;
+	return false;
+
+
+	/*
+	for (int i = 0; i < sceneSpheres.size(); ++i) {
+		Sphere tempS = sceneSpheres[i];
+		if (length(tempS.getCenter() - r.GetStart()) < distToIntersection) {
+			distToIntersection = length(tempS.getCenter() - r.GetStart());
+			s = tempS;
+		}
+	}
+	
+	//Ray offset from sphere center
+	glm::vec3 rayOrigin = r.GetStart();
+	glm::vec3 sphereCenter = s.getCenter();
+	float sphereRadius = s.getRadius();
+
+	float b = glm::dot((2.0f * r.GetDirection()), (rayOrigin - sphereCenter));
+	float ac = glm::dot(rayOrigin - sphereCenter, rayOrigin - sphereCenter) - glm::pow(sphereRadius, 2);
+	float d1 = -b / 2.0f;
+	float d2 = d1;
+	float bsqrt = glm::pow(d1, 2) - ac;
+	d1 += bsqrt;
+	d2 -= bsqrt;
+
+	if (bsqrt < EPSILON)
+		return false;
+
+	bsqrt = glm::sqrt(bsqrt);
+	if (d1 <= 0 && d2 <= 0) {
+		return false;
+	}
+	else if (d2 < d1) {
+		intersection = rayOrigin + d2 * r.GetDirection();
+		return true;
+	}
+	else if (d1 < d2) {
+		intersection = rayOrigin + d1 * r.GetDirection();
+		return true;
+	}
+	else {
+		intersection = rayOrigin + d2 * r.GetDirection();
+		return true;
+	}
+
+	return false;
+	/**/
+	/*
 	//todo: write return a sphere to get the surface
 	int hits = 0;
-
 	for (int i = 0; i < sceneSpheres.size(); ++i) {
 		Sphere tempS = sceneSpheres[i];
 		vec3 oc = r.GetStart() - tempS.getCenter();
 		float a = glm::dot(r.GetDirection(), r.GetDirection());
 		float b = 2.0f * glm::dot(oc, r.GetDirection());
-		float c = dot(oc, oc) - s.getRadius() * tempS.getRadius();
+		float c = dot(oc, oc) - tempS.getRadius() * tempS.getRadius();
 		float discriminant = b * b - (4 * a * c);
 		if (discriminant > 0) {
-			++hits;
 			if (glm::length(oc) < distToIntersection) {
+				++hits;
 				s = tempS;
 				float t = (-b - sqrtf(discriminant))/2.0f*a;
 				intersection = r.GetStart() + t * r.GetDirection();
-				distToIntersection = glm::length(oc);
-				r.setColor(s.getSurface().GetColor());
+				distToIntersection = length(intersection - r.GetStart());
 			}
 		}
 	}
-	if(hits > 0)
-		return true;
+	if(hits > 0) return true;
 
 	return false;
+	/**/
 }
 
 Triangle Scene::whichIsHit(const Ray &aRay, vec3& intersection)

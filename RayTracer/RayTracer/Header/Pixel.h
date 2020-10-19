@@ -9,9 +9,10 @@ public:
 
 	Pixel();
 
-	vec3 getMidOfPixel(int y, int z);
+	vec3 getPointFromPixel(int y, int z, int k, int l, int raysperpixel);
 
 	void addRay(Ray& ray);
+	void setColor(const colorDbl& color) { pixelColor = color; };
 	vec3  GetColor() const { return pixelColor; };
 
 private:
