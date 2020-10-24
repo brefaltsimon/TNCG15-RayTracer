@@ -1,2 +1,25 @@
-﻿  Triangle.cpp
+﻿  Camera.cpp
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Camera.cpp(233,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Camera.cpp(234,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Camera.cpp(235,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Main.cpp
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Main.cpp(11,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Main.cpp(19,20): warning C4244: 'initializing': conversion from '_Rep' to 'double', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  Pixel.cpp
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Pixel.cpp(15,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Pixel.cpp(16,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Pixel.cpp(17,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Pixel.cpp(18,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Ray.cpp
+  Scene.cpp
+C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\RayTracer\Scene.cpp(131,20): warning C4018: '<': signed/unsigned mismatch
+  Sphere.cpp
+  Surface.cpp
+  Tetrahedron.cpp
+  Triangle.cpp
+  Generating Code...
   RayTracer.vcxproj -> C:\Users\HEM\Documents\Liu\TNCG15\RayTracer\RayTracer\Debug\RayTracer.exe

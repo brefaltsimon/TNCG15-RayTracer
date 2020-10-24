@@ -103,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HEM\Documents\Liu\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,21 +142,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Header\Camera.h" />
-    <ClInclude Include="Header\ColorDbl.h" />
     <ClInclude Include="Header\definitions.h" />
     <ClInclude Include="Header\Direction.h" />
+    <ClInclude Include="Header\Light.h" />
     <ClInclude Include="Header\Pixel.h" />
     <ClInclude Include="Header\Ray.h" />
     <ClInclude Include="Header\Scene.h" />
+    <ClInclude Include="Header\Sphere.h" />
+    <ClInclude Include="Header\Surface.h" />
+    <ClInclude Include="Header\Tetrahedron.h" />
     <ClInclude Include="Header\Triangle.h" />
-    <ClInclude Include="Header\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Header\Camera.cpp" />
-    <ClCompile Include="Header\Pixel.cpp" />
-    <ClCompile Include="Header\Ray.cpp" />
-    <ClCompile Include="Header\Scene.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Pixel.cpp" />
+    <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="Tetrahedron.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

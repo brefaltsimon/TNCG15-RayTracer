@@ -84,7 +84,7 @@ colorDbl Camera::ShootRay(Ray& ray, Scene& scene) {
 				Ray newRay = getNewRandDir(ray.GetDirection(), hitTriangle.getNormal(), intersectionPoint);
 
 				colorDbl sampledClr = ShootRay(newRay, scene);
-				ray.AddColor(sampledClr * colorDbl(0.01f)); //
+				ray.AddColor(sampledClr * colorDbl(0.01f)); 
 			}
 		}
 		else if (hitTriangle.getReflModel() == MIRROR) {
